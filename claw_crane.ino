@@ -1,5 +1,28 @@
 /*
 
+- Joystick VRx, VRy and SW to A0, A1, A2.
+
+Arduino:
+- Pin 2 to pull-up resistor 10k to orange (yLimitUp)
+- Pin 3 to pull-up resistor 10k to purple (yLimitDown)
+- Pin 4 to pull-up resistor 10k to white (xLimit1)
+- Pin 5 to pull-up resistor 10k to red (xLimit0)
+- Pin 6 to L293D pin 2 (1A)
+- Pin 8 to L293D pin 7 (2A)
+- Pin 9 to L293D pin 15 (4A)
+- Pin 10 to L293D pin 1 (1,2EN)
+- Pin 11 to L293D pin 9 (3,4EN)
+- Pin 12 to L293D pin 10 (3A)
+
+L293D:
+- Pins 4, 5, 12 and 13 to GND (important!)
+- Vcc1 to Arduino 5 V
+- Vcc2 to power supply 12 V
+- Pin 3 (1Y) to crane (orange-white)
+- Pin 6 (2Y) to crane (green)
+- Pin 14 (4Y) to crane (orange-black)
+- Pin 11 (3Y) to crane (pink)
+
 */
 
 #define TO_MOTORS 0
@@ -16,16 +39,15 @@ const int xLimitPin1 = 4;
 const int yEnablePin = 11;
 const int yDirectionPin0 = 9;
 const int yDirectionPin1 = 12;
-const int yLimitPin0 = 2;
-const int yLimitPin1 = 3;
+const int yLimitPinDown = 3;
+const int yLimitPinUp = 2;
 
+const int delayTime = 50;  // ms
 
 boolean xLimit0;
 boolean xLimit1;
-boolean yLimit0;
-boolean yLimit1;
-
-const int delayTime = 50;  // ms
+boolean yLimitDown;
+boolean yLimitUp;
 
 int direction;
 
@@ -35,6 +57,7 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   configMotorX();
   configMotorY();
+  configJoystick();
 
   direction = TO_MOTORS;
 }
@@ -42,14 +65,91 @@ void setup() {
 boolean success;
 
 void loop() {
-  success = moveX(128, direction);
+  readLimitSwitches();
+
+   // Move for half a second
+  /*success = moveX(255, direction);
+  delay(5000);
+  stopAll();
+  Serial.println("Done.");
+  while (true) {}
+  */
+
+  // // Move until the end
+  //success = moveX(255, FROM_MOTORS);
+  //if (!success) {
+  //  stopAll();
+  //  Serial.println("Done.");
+  //  while (true) {}
+  //
+
+  // Bounce
+  /*success = moveX(128, direction);
   if (!success) {
     if (direction == TO_MOTORS) {
       direction = FROM_MOTORS;
     } else if (direction == FROM_MOTORS) {
       direction = TO_MOTORS;
     }
+  }*/
+
+  moveJoystick();
+}
+
+
+void readLimitSwitches() {
+  // Read limit switches (pull-up resistors)
+  xLimit0 = digitalRead(xLimitPin0) == LOW;
+  xLimit1 = digitalRead(xLimitPin1) == LOW;
+  yLimitDown = digitalRead(yLimitPinDown) == LOW;
+  yLimitUp   = digitalRead(yLimitPinUp)   == LOW;
+
+  ///////////////////////
+  if (yLimitUp) {
+    digitalWrite(LED_BUILTIN, HIGH);
+  } else {
+    digitalWrite(LED_BUILTIN, LOW);
   }
+  yLimitDown = false;
+  ///////////////////////////////////////
+  delay(delayTime);
+}
+
+
+void moveJoystick() {
+  const int midSignal = 1024 / 2;
+
+  int signalX = analogRead(A0);
+  if (signalX > 400 && signalX < 600) {
+    stopX();
+  } else {
+    int directionX;
+    if (signalX > midSignal) {
+      directionX = FROM_MOTORS;
+    } else if (signalX < midSignal) {
+      directionX = TO_MOTORS;
+    }
+    moveX(128, directionX);
+  }
+
+  int signalY = analogRead(A1);
+  if (signalY > 400 && signalY < 600) {
+    stopY();
+  } else {
+    int directionY;
+    if (signalY > midSignal) {
+      directionY = DOWN;
+    } else if (signalX < midSignal) {
+      directionY = UP;
+    }
+    moveY(255, directionY);
+  }
+}
+
+
+void configJoystick() {
+  pinMode(A0, INPUT);
+  pinMode(A1, INPUT);
 }
 
 
@@ -83,11 +183,6 @@ boolean moveX(int speed, int direction) {
   * Returns false if the limit switch for that direction is enabled
   * and true otherwise
   */
-
-  // Read limit switches (pull-up resistors)
-  xLimit0 = digitalRead(xLimitPin0) == LOW;
-  xLimit1 = digitalRead(xLimitPin1) == LOW;
-  delay(delayTime);
 
   if (direction == 0) {  // towards the motors
     if (xLimit0) {  // already at the limit
@@ -129,15 +224,9 @@ boolean moveY(int speed, int direction) {
   * Returns false if the limit switch for that direction is enabled
   * and true otherwise
   */
-
-  // Read limit switches (pull-up resistors)
-  yLimit0 = digitalRead(yLimitPin0) == LOW;
-  yLimit1 = digitalRead(yLimitPin1) == LOW;
-  delay(delayTime);
-
   if (direction == 0) {  // down
-    if (yLimit0) {  // already at the limit
-      Serial.println("yLimit0");
+    if (yLimitDown) {  // already at the limit
+      Serial.println("yLimitDown");
       digitalWrite(yDirectionPin0, LOW);
       digitalWrite(yDirectionPin1, LOW);
       return false;
@@ -149,8 +238,8 @@ boolean moveY(int speed, int direction) {
     digitalWrite(yDirectionPin1, LOW);
 
   } else if (direction == 1) {  // up
-    if (yLimit1) {  // already at the limit
-      Serial.println("yLimit1");
+    if (yLimitUp) {  // already at the limit
+      Serial.println("yLimitUp");
       digitalWrite(yDirectionPin0, LOW);
       digitalWrite(yDirectionPin1, LOW);
       return false;
@@ -166,10 +255,20 @@ boolean moveY(int speed, int direction) {
   return true;
 }
 
-void stopAll() {
+
+void stopX() {
   digitalWrite(xDirectionPin0, LOW);
   digitalWrite(xDirectionPin1, LOW);
+}
 
+
+void stopY() {
   digitalWrite(yDirectionPin0, LOW);
   digitalWrite(yDirectionPin1, LOW);
+}
+
+
+void stopAll() {
+  stopX();
+  stopY();
 }
