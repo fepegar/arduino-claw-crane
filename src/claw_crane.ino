@@ -1,10 +1,16 @@
 /*
 
-- Joystick VRx, VRy and SW to A3, A4, TODO.
+Joystick:
+- VRx to A3
+- VRy to A4
+- SW to [TODO]
 
-Arduino:
-- Pin 4 to pull-up resistor 10k to white (xLimit1)
-- Pin 5 to pull-up resistor 10k to red (xLimit0)
+Crane:
+- Motor x: orange-white, green
+- Pin 4 to pull-up resistor 10k to red (xLimit0)
+- Pin 5 to pull-up resistor 10k to white (xLimit1)
+
+- Motor y: orange-black, pink
 - Pin 6 to pull-up resistor 10k to purple (yLimitDown)
 - Pin 7 to pull-up resistor 10k to orange (yLimitUp)
 
@@ -13,9 +19,9 @@ Arduino:
 #include "motor.h"
 #include "joystick.h"
 
-#define TO_MOTORS 0
+#define TO_MOTORS -1
 #define FROM_MOTORS 1
-#define DOWN 0
+#define DOWN -1
 #define UP 1
 
 const int xLimitPin0 = 4;
@@ -45,7 +51,7 @@ Motor motorY(
   yLimitPinUp
 );
 
-Joystick joystick(motorX, motorY, joystickPinX, joystickPinY);
+Joystick joystick(joystickPinX, joystickPinY);
 
 void setup() {
   Serial.begin(9600);
@@ -55,7 +61,10 @@ void setup() {
 boolean success;
 
 void loop() {
-  joystick.readAndMove();
+  int directionX = joystick.readX();
+  int directionY = joystick.readY();
+  motorX.move(directionX, 1);
+  motorY.move(directionY, 1);
 }
 
 

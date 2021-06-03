@@ -22,7 +22,7 @@ class Motor {
     boolean limitSwitchIsPushed(int direction);
     void setDirection(int direction);
     int speedToByte(float speed);
-    void pwmWrite(int speed);
+    void setSpeed(int speed);
     void setBrakeEnabled(boolean enable);
     float getMilliAmps(int current);
     float getVoltageFromPin();

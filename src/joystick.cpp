@@ -3,10 +3,7 @@
 #include "joystick.h"
 
 
-Joystick::Joystick(Motor motorX, Motor motorY, int pinX, int pinY) {
-  _motorX = motorX;
-  _motorY = motorY;
-
+Joystick::Joystick(int pinX, int pinY) {
   pinMode(pinX, INPUT);
   _pinX = pinX;
 
@@ -14,36 +11,27 @@ Joystick::Joystick(Motor motorX, Motor motorY, int pinX, int pinY) {
   _pinY = pinY;
 };
 
-void readAndMove() {
-  moveX();
-  moveY();
+int Joystick::readX() {
+  return _read(_pinX);
 }
 
-void moveX() {
-  const float speed = 0.5;
-  _move(_pinX, _motorX, speed);
+int Joystick::readY() {
+  return _read(_pinY);
 }
 
-void moveY() {
-  const float speed = 1;
-  _move(_pinY, _motorY, speed);
-}
-
-boolean _move(int pin, Motor motor, float speed) {
+int Joystick::_read(int pin) {
   // Speed is binary for the moment (all or nothing)
   const int midSignal = 1024 / 2;
   int signal = analogRead(pin);
+  int direction;
   if (signal > 400 && signal < 600) {
-    motor.stop();
-    return false;
+    direction = 0;
   } else {
-    int direction;
     if (signal > midSignal) {
-      direction = 0;
-    } else if (signal < midSignal) {
       direction = 1;
+    } else if (signal < midSignal) {
+      direction = -1;
     }
-    motor.move(direction, speed);
-    return true;
   }
+  return direction;
 }

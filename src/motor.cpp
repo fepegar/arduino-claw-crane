@@ -27,19 +27,19 @@ Motor::Motor(int directionPin, int pwmPin, int brakePin, int currentPin, int lim
 
 boolean Motor::move(int direction, float speed)
 {
-  if (limitSwitchIsPushed(direction)) {
+  if (limitSwitchIsPushed(direction) || direction == 0) {
     stop();
     return false;
   }
   setBrakeEnabled(false);
   setDirection(direction);
-  pwmWrite(speedToByte(speed));
+  setSpeed(speedToByte(speed));
   return true;
 }
 
 void Motor::stop()
 {
-  pwmWrite(0);
+  setSpeed(0);
   setBrakeEnabled(true);
 }
 
@@ -53,7 +53,7 @@ void Motor::setBrakeEnabled(boolean enable)
 }
 
 void Motor::setDirection(int direction) {
-  if (direction == 0) {
+  if (direction == -1) {
     digitalWrite(_directionPin, LOW);
   } else if (direction == 1) {
     digitalWrite(_directionPin, HIGH);
@@ -70,7 +70,7 @@ boolean Motor::limitSwitchIsPushed(int direction)
 {
   // Limit switches are connected using pull-up resistors
   boolean result;
-  if (direction == 0) {
+  if (direction == -1) {
     result = digitalRead(_limitPin0) == LOW;
   } else if (direction == 1) {
     result = digitalRead(_limitPin1) == LOW;
@@ -79,7 +79,7 @@ boolean Motor::limitSwitchIsPushed(int direction)
   return result;
 }
 
-void Motor::pwmWrite(int speed) {
+void Motor::setSpeed(int speed) {
   analogWrite(_pwmPin, speedToByte(speed));
 }
 

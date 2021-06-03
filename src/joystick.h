@@ -6,17 +6,14 @@
 
 class Joystick {
   public:
-    Joystick(Motor motorX, Motor motorY, int pinX, int pinY);
-    void readAndMove();
+    Joystick(int pinX, int pinY);
+    int readX();
+    int readY();
 
   private:
-    Motor _motorX;
-    Motor _motorY;
     int _pinX;
     int _pinY;
-    void moveX();
-    void moveY();
-    boolean _move(int pin, Motor motor, float speed);
+    int _read(int pin);
 };
 
 #endif
