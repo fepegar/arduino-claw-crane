@@ -166,8 +166,8 @@ void configMotorX() {
 
 void configMotorY() {
   // Config limit switches
-  pinMode(yLimitPin0, INPUT);
-  pinMode(yLimitPin1, INPUT);
+  pinMode(yLimitPinDown, INPUT);
+  pinMode(yLimitPinUp, INPUT);
 
   pinMode(yEnablePin, OUTPUT);
   pinMode(yDirectionPin0, OUTPUT);
