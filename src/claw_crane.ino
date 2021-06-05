@@ -88,4 +88,5 @@ void loop() {
 void stopAll() {
   motorX.stop();
   motorY.stop();
+  claw.setEnabled(false);
 }
