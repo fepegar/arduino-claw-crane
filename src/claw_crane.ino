@@ -34,6 +34,8 @@ const int joystickPinX = A3;
 const int joystickPinY = A4;
 const int joystickPinPush = A5;
 
+const int clawPin = 10;
+
 Motor motorX(
   'B',
   ConstantsMotorB::directionPin,
@@ -59,6 +61,8 @@ Joystick joystick(joystickPinX, joystickPinY, joystickPinPush);
 void setup() {
   Serial.begin(9600);
   pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(clawPin, HIGH);  // https://youtu.be/d9evR-K6FAY?t=680
+  pinMode(clawPin, OUTPUT);
 }
 
 boolean success;
@@ -68,6 +72,12 @@ void loop() {
   int directionY = joystick.readY();
   motorX.move(directionX, 1);
   motorY.move(directionY, 1);
+  boolean buttonPressed = joystick.readButton();
+  if (buttonPressed) {
+    digitalWrite(clawPin, LOW);
+  } else {
+    digitalWrite(clawPin, HIGH);
+  }
 }
 
 
