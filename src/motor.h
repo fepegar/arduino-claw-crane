@@ -6,12 +6,14 @@
 
 class Motor {
   public:
-    Motor(int directionPin, int pwmPin, int brakePin, int currentPin, int limitPin0, int limitPin1);
+    Motor(char motorID, int directionPin, int pwmPin, int brakePin, int currentPin, int limitPin0, int limitPin1);
     boolean move(int direction, float speed);
     void stop();
     float getMilliAmps();
+    boolean limitSwitchIsPushed(int direction);
 
   private:
+    char _motorID;
     int _pwmPin;
     int _directionPin;
     int _brakePin;
@@ -19,7 +21,6 @@ class Motor {
     int _limitPin0;
     int _limitPin1;
     int _delayTime;
-    boolean limitSwitchIsPushed(int direction);
     void setDirection(int direction);
     int speedToByte(float speed);
     void setSpeed(int speed);

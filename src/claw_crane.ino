@@ -32,26 +32,29 @@ const int yLimitPinUp = 7;
 
 const int joystickPinX = A3;
 const int joystickPinY = A4;
+const int joystickPinPush = A5;
 
 Motor motorX(
-  ConstantsMotorA::directionPin,
-  ConstantsMotorA::pwmPin,
-  ConstantsMotorA::brakePin,
-  ConstantsMotorA::currentPin,
+  'B',
+  ConstantsMotorB::directionPin,
+  ConstantsMotorB::pwmPin,
+  ConstantsMotorB::brakePin,
+  ConstantsMotorB::currentPin,
   xLimitPin0,
   xLimitPin1
 );
 
 Motor motorY(
-  ConstantsMotorB::directionPin,
-  ConstantsMotorB::pwmPin,
-  ConstantsMotorB::brakePin,
-  ConstantsMotorB::currentPin,
+  'A',
+  ConstantsMotorA::directionPin,
+  ConstantsMotorA::pwmPin,
+  ConstantsMotorA::brakePin,
+  ConstantsMotorA::currentPin,
   yLimitPinDown,
   yLimitPinUp
 );
 
-Joystick joystick(joystickPinX, joystickPinY);
+Joystick joystick(joystickPinX, joystickPinY, joystickPinPush);
 
 void setup() {
   Serial.begin(9600);

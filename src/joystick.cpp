@@ -3,23 +3,30 @@
 #include "joystick.h"
 
 
-Joystick::Joystick(int pinX, int pinY) {
+Joystick::Joystick(int pinX, int pinY, int pinPush) {
   pinMode(pinX, INPUT);
   _pinX = pinX;
 
   pinMode(pinY, INPUT);
   _pinY = pinY;
+
+  pinMode(pinPush, INPUT_PULLUP);
+  _pinPush = pinPush;
 };
 
 int Joystick::readX() {
-  return _read(_pinX);
+  return _readAnalog(_pinX);
 }
 
 int Joystick::readY() {
-  return _read(_pinY);
+  return _readAnalog(_pinY);
 }
 
-int Joystick::_read(int pin) {
+boolean Joystick::readButton() {
+  return digitalRead(_pinPush) == LOW;  // pull-up
+}
+
+int Joystick::_readAnalog(int pin) {
   // Speed is binary for the moment (all or nothing)
   const int midSignal = 1024 / 2;
   int signal = analogRead(pin);

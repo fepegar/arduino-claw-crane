@@ -2,8 +2,10 @@
 #include "motor.h"
 
 
-Motor::Motor(int directionPin, int pwmPin, int brakePin, int currentPin, int limitPin0, int limitPin1)
+Motor::Motor(char motorID, int directionPin, int pwmPin, int brakePin, int currentPin, int limitPin0, int limitPin1)
 {
+  _motorID = motorID;
+
   pinMode(directionPin, OUTPUT);
   _directionPin = directionPin;
 
@@ -16,10 +18,10 @@ Motor::Motor(int directionPin, int pwmPin, int brakePin, int currentPin, int lim
   pinMode(currentPin, INPUT);
   _currentPin = currentPin;
 
-  pinMode(limitPin0, INPUT);
+  pinMode(limitPin0, INPUT_PULLUP);
   _limitPin0 = limitPin0;
 
-  pinMode(limitPin1, INPUT);
+  pinMode(limitPin1, INPUT_PULLUP);
   _limitPin1 = limitPin1;
 
   _delayTime = 50;  // ms
@@ -68,15 +70,28 @@ int Motor::speedToByte(float speed)
 
 boolean Motor::limitSwitchIsPushed(int direction)
 {
-  // Limit switches are connected using pull-up resistors
-  boolean result;
+  // Limit switches are connected using pull-up resistors,
+  // which means that the signal is LOW when they are enabled
+  boolean isPushed;
+  boolean verbose = true;
+  int pin;
   if (direction == -1) {
-    result = digitalRead(_limitPin0) == LOW;
+    pin = _limitPin0;
   } else if (direction == 1) {
-    result = digitalRead(_limitPin1) == LOW;
+    pin = _limitPin1;
   }
+  isPushed = digitalRead(pin) == LOW;
   delay(_delayTime);  // account for bouncing
-  return result;
+  if (isPushed && verbose) {
+    Serial.print("Limit ");
+    Serial.print(direction);
+    Serial.print(" of motor ");
+    Serial.print((String)(_motorID));
+    Serial.print(" (pin ");
+    Serial.print(pin);
+    Serial.println(") ON");
+  }
+  return isPushed;
 }
 
 void Motor::setSpeed(int speed) {

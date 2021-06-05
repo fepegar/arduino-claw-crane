@@ -6,14 +6,16 @@
 
 class Joystick {
   public:
-    Joystick(int pinX, int pinY);
+    Joystick(int pinX, int pinY, int pinPush);
     int readX();
     int readY();
+    boolean readButton();
 
   private:
     int _pinX;
     int _pinY;
-    int _read(int pin);
+    int _pinPush;
+    int _readAnalog(int pin);
 };
 
 #endif
