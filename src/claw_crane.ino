@@ -18,6 +18,7 @@ Crane:
 
 #include "motor.h"
 #include "joystick.h"
+#include "claw.h"
 
 #define TO_MOTORS -1
 #define FROM_MOTORS 1
@@ -58,26 +59,29 @@ Motor motorY(
 
 Joystick joystick(joystickPinX, joystickPinY, joystickPinPush);
 
+Claw claw(clawPin);
+
+
+int directionX;
+int directionY;
+boolean buttonPressed;
+
+
 void setup() {
   Serial.begin(9600);
   pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(clawPin, HIGH);  // https://youtu.be/d9evR-K6FAY?t=680
-  pinMode(clawPin, OUTPUT);
 }
 
-boolean success;
-
 void loop() {
-  int directionX = joystick.readX();
-  int directionY = joystick.readY();
+  // Read
+  directionX = joystick.readX();
+  directionY = joystick.readY();
+  buttonPressed = joystick.readButton();
+
+  // Move
   motorX.move(directionX, 1);
   motorY.move(directionY, 1);
-  boolean buttonPressed = joystick.readButton();
-  if (buttonPressed) {
-    digitalWrite(clawPin, LOW);
-  } else {
-    digitalWrite(clawPin, HIGH);
-  }
+  claw.setEnabled(buttonPressed);
 }
 
 

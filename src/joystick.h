@@ -2,7 +2,7 @@
 #define Joystick_h
 
 #include "Arduino.h"
-#include "motor.h"
+
 
 class Joystick {
   public:
