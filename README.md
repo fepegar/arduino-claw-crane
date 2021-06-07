@@ -79,9 +79,9 @@ To control the claw, I used a relay module. More specifically, I used a
 
 ![Relay module](https://cdn.shopify.com/s/files/1/0474/7729/3217/products/TS0010-01.jpg?v=1599722937)
 
-I decided to leave the juper between Vcc and JD-Vcc in place (i.e., the current
-for the relay solenoid is supplied through the Arduino pin). Ideally, this
-voltage would come from an external power supply (good explanation
+I decided to leave the jumper between Vcc and JD-Vcc in place (i.e., the current
+for the relay solenoid is supplied through the Arduino pin). Ideally, though,
+this voltage would come from an external power supply (good explanation
 [in this video](https://youtu.be/d9evR-K6FAY)).
 
 ## Manual control
