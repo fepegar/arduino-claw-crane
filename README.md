@@ -14,6 +14,8 @@ The claw stays closed after supplying 12 V for some milliseconds, so I decided
 to use a resistor in series so less than 12 V are provided to the push solenoid
 inside the claw.
 
+![Circuit](./screenshots/claw-circuit.svg)
+
 Below is a derivation of V1 as a function of R2.
 
 <!-- $$
