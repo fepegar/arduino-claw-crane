@@ -32,10 +32,19 @@ inside the claw is enabled with less than 12 V.
 where
 
 <!-- $$
-V_{cc} = 12 V, R_1 = 4.5 \Omega
+V_{cc} = 12 \textrm{V}
 $$ -->
 
-<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=V_%7Bcc%7D%20%3D%2012%20V%2C%20R_1%20%3D%204.5%20%5COmega"></div>
+<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=V_%7Bcc%7D%20%3D%2012%20%5Ctextrm%7BV%7D"></div>
+
+and
+
+<!-- $$
+R_1 = 4.5 \textrm{\Omega}
+$$ -->
+
+<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=R_1%20%3D%204.5%20%5Ctextrm%7B%5COmega%7D"></div>
+
 
 Below is a derivation of V1 as a function of R2.
 
