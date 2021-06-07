@@ -15,15 +15,16 @@ to use a resistor in series so less than 12 V are provided to the push solenoid
 inside the claw.
 
 ![Circuit](./screenshots/claw-circuit.svg)
-<div align="center"><img src="https://render.githubusercontent.com/render/math?math=V_%7Bcc%7D%20%3D%2012%20V%2C%20R_1%20%3D%204.5%20%5COmega"></div>
 
-Below is a derivation of V1 as a function of R2.
+where
 
 <!-- $$
 V_{cc} = 12 V, R_1 = 4.5 \Omega
 $$ -->
 
 <div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=V_%7Bcc%7D%20%3D%2012%20V%2C%20R_1%20%3D%204.5%20%5COmega"></div>
+
+Below is a derivation of V1 as a function of R2.
 
 <!-- $$
 V_1 = V_{cc} - V_2
