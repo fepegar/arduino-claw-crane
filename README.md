@@ -15,6 +15,7 @@ to use a resistor in series so less than 12 V are provided to the push solenoid
 inside the claw.
 
 ![Circuit](./screenshots/claw-circuit.svg)
+<div align="center"><img src="https://render.githubusercontent.com/render/math?math=V_%7Bcc%7D%20%3D%2012%20V%2C%20R_1%20%3D%204.5%20%5COmega"></div>
 
 Below is a derivation of V1 as a function of R2.
 
@@ -48,15 +49,21 @@ $$ -->
 
 <div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=V_2%20%3D%20V_%7Bcc%7D%20%5Cfrac%7BR_2%7D%7BR_1%20%2B%20R_2%7D"></div>
 
+<!-- $$
+V_1 = V_{cc} (1 - \frac{R_2}{R_1 + R_2})
+$$ -->
+
+<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=V_1%20%3D%20V_%7Bcc%7D%20(1%20-%20%5Cfrac%7BR_2%7D%7BR_1%20%2B%20R_2%7D)"></div>
+
 ![Screenshot](./screenshots/r2.png)
-[Link](https://www.desmos.com/calculator/iml4cipfx8)
+[Link](https://www.desmos.com/calculator/cf1kxeozzn)
 
 The horizontal axis is R2 (in ohms). The vertical axis is V1 (in volts).
 
-![Screenshot](./screenshots/claw-simulation.png)
-[Link](https://crcit.net/c/800fdfb51e4041a59e4ed74fbcc340c6)
+<!-- ![Screenshot](./screenshots/claw-simulation.png)
+[Link](https://crcit.net/c/800fdfb51e4041a59e4ed74fbcc340c6) -->
 
-A value of 10 Ω for R2 implies V1 = 8.28 V, which seems reasonable.
+<!-- A value of  Ω for R2 implies V1 =  V, which seems reasonable. -->
 
 ## Links of interest
 
