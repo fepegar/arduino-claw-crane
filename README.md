@@ -40,10 +40,10 @@ $$ -->
 and
 
 <!-- $$
-R_1 = 4.5 \textrm{\Omega}
+R_1 = 4.5 \Omega
 $$ -->
 
-<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=R_1%20%3D%204.5%20%5Ctextrm%7B%5COmega%7D"></div>
+<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=R_1%20%3D%204.5%20%5COmega"></div>
 
 
 Below is a derivation of V1 as a function of R2.
