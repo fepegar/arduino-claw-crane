@@ -23,9 +23,9 @@ to control them.
 ## Claw solenoid
 
 V1 is the voltage supplied to the claw, whose resistance R1 is about 4.5 Ω.
-The claw stays closed after supplying 12 V for some milliseconds, so I decided
-to use a resistor in series so less than 12 V are provided to the push solenoid
-inside the claw.
+The claw stays closed after supplying 12 V for some milliseconds, therefore I decided
+to use a dropping resistor so that push solenoid
+inside the claw is enabled with less than 12 V.
 
 ![Circuit](./screenshots/claw-circuit.svg)
 
@@ -118,7 +118,9 @@ the claw.
 
 ### Arduino
 
-- [Adafruit-BMP085-Library](https://github.com/adafruit/Adafruit-BMP085-Library)
 - [DroneBot Workshop](https://www.youtube.com/channel/UCzml9bXoEM0itbcE96CB03w)
 - [Paul McWhorter](https://www.youtube.com/channel/UCfYfK0tzHZTpNFrc_NDKfTA)
 - [Robojax](https://www.youtube.com/channel/UCkcBSig_Iu4ZnAIeCeG1TVg)
+- [Library tutorial](https://www.arduino.cc/en/Hacking/libraryTutorial)
+- [Adafruit-BMP085-Library](https://github.com/adafruit/Adafruit-BMP085-Library)
+- [API style guide](https://www.arduino.cc/en/Reference/APIStyleGuide)
