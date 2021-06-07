@@ -11,7 +11,7 @@ Joystick::Joystick(int pinX, int pinY, int pinPush) {
 
   pinMode(pinPush, INPUT_PULLUP);
   _pinPush = pinPush;
-};
+}
 
 int Joystick::readX() {
   return _readAnalog(_pinX);

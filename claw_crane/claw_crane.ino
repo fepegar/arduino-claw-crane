@@ -3,7 +3,10 @@
 Joystick:
 - VRx to A3
 - VRy to A4
-- SW to [TODO]
+- SW to 10
+
+Infrared receiver:
+- Y to 2
 
 Crane:
 - Motor x: orange-white, green
@@ -19,6 +22,7 @@ Crane:
 #include "motor.h"
 #include "joystick.h"
 #include "claw.h"
+#include "remote.h"
 
 #define TO_MOTORS -1
 #define FROM_MOTORS 1
@@ -36,6 +40,8 @@ const int joystickPinY = A4;
 const int joystickPinPush = A5;
 
 const int clawPin = 10;
+
+const int remotePin = 2;
 
 Motor motorX(
   'B',
@@ -61,6 +67,8 @@ Joystick joystick(joystickPinX, joystickPinY, joystickPinPush);
 
 Claw claw(clawPin);
 
+Remote remote(remotePin);
+
 
 int directionX;
 int directionY;
@@ -73,15 +81,20 @@ void setup() {
 }
 
 void loop() {
-  // Read
-  directionX = joystick.readX();
-  directionY = joystick.readY();
-  buttonPressed = joystick.readButton();
+  // // Read
+  // directionX = joystick.readX();
+  // directionY = joystick.readY();
+  // buttonPressed = joystick.readButton();
 
-  // Move
-  motorX.move(directionX, 1);
-  motorY.move(directionY, 1);
-  claw.setEnabled(buttonPressed);
+  // // Move
+  // motorX.move(directionX, 1);
+  // motorY.move(directionY, 1);
+  // claw.setEnabled(buttonPressed);
+
+  if (remote.decode()) {
+    //Serial.println(remote.getResultsValue(), HEX);
+    remote.resume();
+  }
 }
 
 
