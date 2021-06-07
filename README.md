@@ -41,6 +41,8 @@ $$ -->
 
 ![Screenshot](./screenshots/r2.png)
 
+![Screenshot](./screenshots/claw-simulation.png)
+
 ## Links of interest
 
 - [Holland Computers, Inc. – Crane Kit Manual – Part Number RA-CRANE-KIT](https://www.hollandcomputers.com/data/Gaming/Crane%20Kit%20Manual%20RA-CRANE-KIT-2019.pdf)
@@ -55,3 +57,4 @@ $$ -->
 - [Powering a crane/claw](https://electronics.stackexchange.com/questions/471259/powering-a-crane-claw)
 - [Claw machines are rigged — here's why it's so hard to grab that stuffed animal](https://www.vox.com/2015/4/3/8339999/claw-machines-rigged)
 - [Arduino Claw Machine](https://www.instructables.com/Arduino-Claw-Machine/)
+- [Adafruit-BMP085-Library](https://github.com/adafruit/Adafruit-BMP085-Library)
