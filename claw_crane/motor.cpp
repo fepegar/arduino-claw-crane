@@ -29,14 +29,17 @@ Motor::Motor(char motorID, int directionPin, int pwmPin, int brakePin, int curre
 
 boolean Motor::move(int direction, float speed)
 {
-  if (limitSwitchIsPushed(direction) || direction == 0) {
+  boolean moved;
+  if (direction == 0 || limitSwitchIsPushed(direction)) {
     stop();
-    return false;
+    moved = false;
+  } else {
+    setBrakeEnabled(false);
+    setDirection(direction);
+    setSpeed(speed);
+    moved = true;
   }
-  setBrakeEnabled(false);
-  setDirection(direction);
-  setSpeed(speedToByte(speed));
-  return true;
+  return moved;
 }
 
 void Motor::stop()
@@ -94,11 +97,12 @@ boolean Motor::limitSwitchIsPushed(int direction)
   return isPushed;
 }
 
-void Motor::setSpeed(int speed) {
+void Motor::setSpeed(float speed) {
+  // Speed should be in [0, 1]
   analogWrite(_pwmPin, speedToByte(speed));
 }
 
-float Motor::getMilliAmps(int current) {
+float Motor::getMilliAmps() {
   float voltage = getVoltageFromPin();
   return getCurrentFromVoltage(voltage);
 }

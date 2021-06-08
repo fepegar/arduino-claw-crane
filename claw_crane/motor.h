@@ -23,7 +23,7 @@ class Motor {
     int _delayTime;
     void setDirection(int direction);
     int speedToByte(float speed);
-    void setSpeed(int speed);
+    void setSpeed(float speed);
     void setBrakeEnabled(boolean enable);
     float getMilliAmps(int current);
     float getVoltageFromPin();
@@ -47,6 +47,5 @@ namespace ConstantsMotorB
   const int brakePin = 8;
   const int currentPin = A1;
 }
-
 
 #endif
