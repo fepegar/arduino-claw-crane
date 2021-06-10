@@ -24,7 +24,8 @@ class Motor {
     void setDirection(int direction);
     int speedToByte(float speed);
     void setSpeed(float speed);
-    void setBrakeEnabled(boolean enable);
+    void enableBrake();
+    void disableBrake();
     float getMilliAmps(int current);
     float getVoltageFromPin();
     float getCurrentFromVoltage(float voltage);

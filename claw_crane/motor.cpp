@@ -34,7 +34,7 @@ boolean Motor::move(int direction, float speed)
     stop();
     moved = false;
   } else {
-    setBrakeEnabled(false);
+    disableBrake();
     setDirection(direction);
     setSpeed(speed);
     moved = true;
@@ -45,16 +45,15 @@ boolean Motor::move(int direction, float speed)
 void Motor::stop()
 {
   setSpeed(0);
-  setBrakeEnabled(true);
+  enableBrake();
 }
 
-void Motor::setBrakeEnabled(boolean enable)
-{
-  if (enable) {
-    digitalWrite(_brakePin, HIGH);
-  } else {
-    digitalWrite(_brakePin, LOW);
-  }
+void Motor::enableBrake() {
+  digitalWrite(_brakePin, HIGH);
+}
+
+void Motor::disableBrake() {
+  digitalWrite(_brakePin, LOW);
 }
 
 void Motor::setDirection(int direction) {
