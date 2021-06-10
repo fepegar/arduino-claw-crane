@@ -1,13 +1,22 @@
-#ifndef Motor_h
-#define Motor_h
+#ifndef motor_h
+#define motor_h
 
 #include "Arduino.h"
+#include "limit.h"
 
+#define VERBOSE 1
+
+// Docs say 3.3 V for 2 A
+#define CURRENT_AT_MAX_VOLTAGE 2
+#define VOLTAGE_AT_MAX_CURRENT 3.3
+
+#define MAX_10_BITS 1023
+#define MAX_INPUT_VOLTAGE 5
 
 class Motor {
   public:
     Motor(char motorID, int directionPin, int pwmPin, int brakePin, int currentPin, int limitPin0, int limitPin1);
-    boolean move(int direction, float speed);
+    boolean update(int direction, float speed);
     void stop();
     float getMilliAmps();
     boolean limitSwitchIsPushed(int direction);
@@ -18,8 +27,6 @@ class Motor {
     int _directionPin;
     int _brakePin;
     int _currentPin;
-    int _limitPin0;
-    int _limitPin1;
     int _delayTime;
     void setDirection(int direction);
     int speedToByte(float speed);
@@ -29,6 +36,8 @@ class Motor {
     float getMilliAmps(int current);
     float getVoltageFromPin();
     float getCurrentFromVoltage(float voltage);
+    LimitSwitch* _ptrLimitSwitch0;
+    LimitSwitch* _ptrLimitSwitch1;
 };
 
 

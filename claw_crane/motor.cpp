@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "motor.h"
+#include "limit.h"
 
 
 Motor::Motor(char motorID, int directionPin, int pwmPin, int brakePin, int currentPin, int limitPin0, int limitPin1)
@@ -18,34 +19,25 @@ Motor::Motor(char motorID, int directionPin, int pwmPin, int brakePin, int curre
   pinMode(currentPin, INPUT);
   _currentPin = currentPin;
 
-  pinMode(limitPin0, INPUT_PULLUP);
-  _limitPin0 = limitPin0;
-
-  pinMode(limitPin1, INPUT_PULLUP);
-  _limitPin1 = limitPin1;
-
-  _delayTime = 50;  // ms
+  _ptrLimitSwitch0 = new LimitSwitch(limitPin0);
+  _ptrLimitSwitch1 = new LimitSwitch(limitPin1);
+  _ptrLimitSwitch0->begin();
+  _ptrLimitSwitch1->begin();
 }
 
-boolean Motor::move(int direction, float speed)
-{
-  boolean moved;
+
+boolean Motor::update(int direction, float speed) {
   if (direction == 0 || limitSwitchIsPushed(direction)) {
     stop();
-    moved = false;
   } else {
-    disableBrake();
     setDirection(direction);
     setSpeed(speed);
-    moved = true;
   }
-  return moved;
 }
 
-void Motor::stop()
-{
-  setSpeed(0);
+void Motor::stop() {
   enableBrake();
+  setSpeed(0);
 }
 
 void Motor::enableBrake() {
@@ -75,29 +67,28 @@ boolean Motor::limitSwitchIsPushed(int direction)
   // Limit switches are connected using pull-up resistors,
   // which means that the signal is LOW when they are enabled
   boolean isPushed;
-  boolean verbose = true;
-  int pin;
   if (direction == -1) {
-    pin = _limitPin0;
+    isPushed = _ptrLimitSwitch0->isPushed();
   } else if (direction == 1) {
-    pin = _limitPin1;
+    isPushed = _ptrLimitSwitch1->isPushed();
   }
-  isPushed = digitalRead(pin) == LOW;
-  delay(_delayTime);  // account for bouncing
-  if (isPushed && verbose) {
+  if (isPushed && VERBOSE) {
     Serial.print("Limit ");
     Serial.print(direction);
     Serial.print(" of motor ");
     Serial.print((String)(_motorID));
-    Serial.print(" (pin ");
-    Serial.print(pin);
-    Serial.println(") ON");
+    Serial.println(" ON");
   }
   return isPushed;
 }
 
 void Motor::setSpeed(float speed) {
   // Speed should be in [0, 1]
+  if (speed == 0) {
+    enableBrake();
+  } else {
+    disableBrake();
+  }
   analogWrite(_pwmPin, speedToByte(speed));
 }
 
@@ -108,12 +99,11 @@ float Motor::getMilliAmps() {
 
 float Motor::getVoltageFromPin() {
   int lecture = analogRead(_currentPin);
-  float voltage = (float)(lecture) / 1023 * 5;
+  float voltage = (float)(lecture) / MAX_10_BITS * MAX_INPUT_VOLTAGE;
   return voltage;
 }
 
 float Motor::getCurrentFromVoltage(float voltage) {
-  // Docs say 3.3 V for 2 A
-  float current = voltage / 3.3 * 2;
+  float current = voltage / VOLTAGE_AT_MAX_CURRENT * CURRENT_AT_MAX_VOLTAGE;
   return current;
 }

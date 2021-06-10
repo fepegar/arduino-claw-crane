@@ -1,5 +1,5 @@
-#ifndef Joystick_h
-#define Joystick_h
+#ifndef joystick_h
+#define joystick_h
 
 #include "Arduino.h"
 

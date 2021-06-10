@@ -1,5 +1,5 @@
-#ifndef Claw_h
-#define Claw_h
+#ifndef claw_h
+#define claw_h
 
 #include "Arduino.h"
 
