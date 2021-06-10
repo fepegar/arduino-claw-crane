@@ -130,12 +130,12 @@ void Motor::_setDirection(int direction) {
 int Motor::_speedToByte(float speed)
 {
   float rescaled = 255 * speed;
-  return (int) rescaled;
+  return int(rescaled);
 }
 
 float Motor::_getVoltageFromPin() {
   int lecture = analogRead(_currentPin);
-  float voltage = (float)(lecture) / MAX_10_BITS * MAX_INPUT_VOLTAGE;
+  float voltage = float(lecture) / MAX_10_BITS * MAX_INPUT_VOLTAGE;
   return voltage;
 }
 
