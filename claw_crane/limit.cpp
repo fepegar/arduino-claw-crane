@@ -24,6 +24,9 @@ boolean LimitSwitch::isPushed() {
     &_lastDebounceTime,
     _debouncedState
   );
+  if (_debouncedState == true) {
+    Serial.println("Limit switch enabled");
+  }
   return _debouncedState;
 }
 

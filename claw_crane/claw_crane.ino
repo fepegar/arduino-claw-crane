@@ -74,8 +74,8 @@ Joystick joystick(joystickPinX, joystickPinY, joystickPinPush);
 
 Claw claw(clawPin);
 
-int directionX = STOP;
-int directionY = STOP;
+float speedX;
+float speedY;
 boolean buttonPressed = false;
 
 
@@ -85,21 +85,24 @@ void setup() {
 
 
 void loop() {
-  readJoystick();
-  update();
+  motorX.moveAuto();
+  motorY.moveAuto();
+  //readJoystick();
+  //update();
 }
 
 
 void readJoystick() {
-  directionX = joystick.readX();
-  directionY = joystick.readY();
+  speedX = joystick.readX();
+  speedY = joystick.readY();
   buttonPressed = joystick.readButton();
 }
 
 
 void update() {
-  motorX.update(directionX, 0.5);
-  motorY.update(directionY, 1);
+  Serial.println(speedX);
+  motorX.setSpeed(speedX);
+  motorY.setSpeed(speedY);
   claw.setEnabled(buttonPressed);
 }
 

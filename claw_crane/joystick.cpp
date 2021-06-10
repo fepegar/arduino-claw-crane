@@ -13,11 +13,11 @@ Joystick::Joystick(int pinX, int pinY, int pinPush) {
   _pinPush = pinPush;
 }
 
-int Joystick::readX() {
+float Joystick::readX() {
   return _readAnalog(_pinX);
 }
 
-int Joystick::readY() {
+float Joystick::readY() {
   return _readAnalog(_pinY);
 }
 
@@ -25,19 +25,19 @@ boolean Joystick::readButton() {
   return digitalRead(_pinPush) == LOW;  // pull-up
 }
 
-int Joystick::_readAnalog(int pin) {
+float Joystick::_readAnalog(int pin) {
   // Speed is binary for the moment (all or nothing)
   const int midSignal = 1024 / 2;
   int signal = analogRead(pin);
-  int direction;
+  float speed;
   if (signal > 400 && signal < 600) {
-    direction = 0;
+    speed = 0;
   } else {
     if (signal > midSignal) {
-      direction = 1;
+      speed = 1;
     } else if (signal < midSignal) {
-      direction = -1;
+      speed = -1;
     }
   }
-  return direction;
+  return speed;
 }

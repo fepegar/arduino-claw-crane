@@ -13,13 +13,25 @@
 #define MAX_10_BITS 1023
 #define MAX_INPUT_VOLTAGE 5
 
+#define MIN_RANDOM_SPEED 0.5
+#define MAX_RANDOM_SPEED 1
+
+#define MIN_STOP_INTERVAL 2000  // 2 s
+#define MAX_STOP_INTERVAL 10000  // 10 s
+
+#define MIN_MOVE_INTERVAL 200  // 0.2 s
+#define MAX_MOVE_INTERVAL 2000 // 2 s
+
+
 class Motor {
   public:
     Motor(char motorID, int directionPin, int pwmPin, int brakePin, int currentPin, int limitPin0, int limitPin1);
-    boolean update(int direction, float speed);
+    void setSpeed(float speed);
     void stop();
     float getMilliAmps();
     boolean limitSwitchIsPushed(int direction);
+    void moveAuto();
+    boolean _limitReached();
 
   private:
     char _motorID;
@@ -28,14 +40,24 @@ class Motor {
     int _brakePin;
     int _currentPin;
     int _delayTime;
-    void setDirection(int direction);
-    int speedToByte(float speed);
-    void setSpeed(float speed);
-    void enableBrake();
-    void disableBrake();
-    float getMilliAmps(int current);
-    float getVoltageFromPin();
-    float getCurrentFromVoltage(float voltage);
+    float _speed;
+    void _setSpeed(float speed);
+    void _setDirection(int direction);
+    int _speedToByte(float speed);
+    void _enableBrake();
+    void _disableBrake();
+    float _getVoltageFromPin();
+    float _getCurrentFromVoltage(float voltage);
+    int _getCurrentDirection();
+    LimitSwitch* _getLimitSwitchFromSpeed(float speed);
+    LimitSwitch* _getRelevantLimitSwitch();
+    float _getRandomSpeed();
+    float _getRandomFloat();
+    unsigned long _getRandomStopInterval();
+    unsigned long _getRandomMoveInterval();
+    unsigned long _timeToMove;
+    unsigned long _timeToStop;
+    boolean _moving;
     LimitSwitch* _ptrLimitSwitch0;
     LimitSwitch* _ptrLimitSwitch1;
 };

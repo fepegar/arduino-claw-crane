@@ -7,15 +7,15 @@
 class Joystick {
   public:
     Joystick(int pinX, int pinY, int pinPush);
-    int readX();
-    int readY();
+    float readX();
+    float readY();
     boolean readButton();
 
   private:
     int _pinX;
     int _pinY;
     int _pinPush;
-    int _readAnalog(int pin);
+    float _readAnalog(int pin);
 };
 
 #endif
