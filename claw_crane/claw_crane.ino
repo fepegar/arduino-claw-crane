@@ -24,17 +24,10 @@
 #include "claw.h"
 #include <IRremote.h>
 
-#define TO_MOTORS -1
-#define FROM_MOTORS 1
-#define DOWN -1
-#define UP 1
-#define STOP 0
+#define MANUAL 0
+#define AUTO 1
 
-#define REMOTE_UP 0x18
-#define REMOTE_LEFT 0x8
-#define REMOTE_CENTER 0x1C
-#define REMOTE_RIGHT 0x5A
-#define REMOTE_DOWN 0x52
+const int mode = MANUAL;
 
 const int xLimitPin0 = 4;
 const int xLimitPin1 = 5;
@@ -47,8 +40,6 @@ const int joystickPinY = A4;
 const int joystickPinPush = A5;
 
 const int clawPin = 10;
-
-const int remotePin = 2;
 
 Motor motorX(
   'X',
@@ -83,12 +74,16 @@ void setup() {
   Serial.begin(9600);
 }
 
-
 void loop() {
-  motorX.moveAuto();
-  motorY.moveAuto();
-  //readJoystick();
-  //update();
+  int timeClaw = 5000;
+  if (mode == AUTO) {
+    motorX.moveAuto();
+    motorY.moveAuto();
+    claw.moveAuto();
+  } else if (mode == MANUAL) {
+    readJoystick();
+    update();
+  }
 }
 
 
@@ -110,5 +105,5 @@ void update() {
 void stopAll() {
   motorX.stop();
   motorY.stop();
-  claw.setEnabled(false);
+  claw.release();
 }

@@ -49,6 +49,7 @@ void Motor::moveAuto() {
       unsigned long waitingTime = _getRandomStopInterval();
       _timeToMove = millis() + waitingTime;
       Serial.println("Stopping " + String(_motorID) + " for " + String(waitingTime));
+      Serial.println();
     }
   } else if ((_speed == 0) && (millis() >= _timeToMove)) {
     float speed = _getRandomSpeed();
@@ -57,6 +58,7 @@ void Motor::moveAuto() {
     unsigned long movingTime = _getRandomMoveInterval();
     _timeToStop = millis() + movingTime;
     Serial.println("Moving " + String(_motorID) + " at speed " + String(speed) + " for " + String(movingTime));
+    Serial.println();
   }
 }
 
