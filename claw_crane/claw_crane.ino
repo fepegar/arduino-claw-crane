@@ -50,8 +50,6 @@ const int clawPin = 10;
 
 const int remotePin = 2;
 
-const int useRemote = false;
-
 Motor motorX(
   'X',
   ConstantsMotorB::directionPin,
@@ -79,28 +77,16 @@ Claw claw(clawPin);
 int directionX = STOP;
 int directionY = STOP;
 boolean buttonPressed = false;
-boolean closeClaw = false;
 
 
 void setup() {
   Serial.begin(9600);
-  if (useRemote) {
-    IrReceiver.begin(remotePin, false);
-  }
 }
+
 
 void loop() {
-  read();
-  move();
-}
-
-
-void read() {
-  if (useRemote) {
-    readRemote();
-  } else {
-    readJoystick();
-  }
+  readJoystick();
+  update();
 }
 
 
@@ -108,57 +94,13 @@ void readJoystick() {
   directionX = joystick.readX();
   directionY = joystick.readY();
   buttonPressed = joystick.readButton();
-  closeClaw = buttonPressed;
 }
 
 
-void readRemote() {
-  if (IrReceiver.decode()) {
-    IrReceiver.printIRResultShort(&Serial);
-    Serial.println();
-    IrReceiver.printIRResultMinimal(&Serial);
-    Serial.println();
-    IrReceiver.resume();
-
-    switch (IrReceiver.decodedIRData.command) {
-      case REMOTE_UP:
-        Serial.println("Remote up");
-        directionY = 1;
-        break;
-      case REMOTE_DOWN:
-        Serial.println("Remote down");
-        directionY = -1;
-        break;
-      case REMOTE_LEFT:
-        Serial.println("Remote left");
-        directionX = 1;
-        break;
-      case REMOTE_RIGHT:
-        Serial.println("Remote right");
-        directionX = -1;
-        break;
-      case REMOTE_CENTER:
-        Serial.println("Remote center");
-        closeClaw = true;
-        break;
-      default:
-        Serial.println("Remote something else");
-        directionX = 0;
-        directionY = 0;
-        closeClaw = false;
-    }
-  } else {
-    directionX = 0;
-    directionY = 0;
-    closeClaw = false;
-  }
-}
-
-
-void move() {
-  motorX.move(directionX, 0.5);
-  motorY.move(directionY, 0.99);
-  claw.setEnabled(closeClaw);
+void update() {
+  motorX.update(directionX, 0.5);
+  motorY.update(directionY, 1);
+  claw.setEnabled(buttonPressed);
 }
 
 
