@@ -12,6 +12,10 @@
   - Motor y: orange-black, pink
     - Pin 6 to pull-up resistor 10k to purple (yLimitDown)
     - Pin 7 to pull-up resistor 10k to orange (yLimitUp)
+  - Claw:
+    - Pin 10 to relay module input 1
+    - Claw solenoid to relay output
+    - Arduino 5V used to power relay (risky?)
 
 */
 
