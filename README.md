@@ -5,7 +5,8 @@ Collaboration with artist [Estefanía B. Flores](https://www.instagram.com/estef
 
 Old claw crane controlled with an [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) microcontroller board.
 
-![Schematic](breadboard.png)
+<img src="https://raw.githubusercontent.com/fepegar/arduino-claw-crane/master/breadboard.png" width="300">
+
 
 ## Motors
 
@@ -13,12 +14,14 @@ There are three DC motors, but we will only use two.
 
 They seem to be [12V Crouzet DC brush geared motors (828610)](https://soda.crouzet.com/pn/?i=82861009).
 
-![DC motor](https://media.crouzet.com/catalog/_photos_low-resolution/jpg/PH_82861015.jpg)
+<img src="https://media.crouzet.com/catalog/_photos_low-resolution/jpg/PH_82861015.jpg" width="300">
+
 
 I used an [Arduino motor shield](https://store.arduino.cc/arduino-motor-shield-rev3)
 to control them.
 
-![Arduino motor shield](https://store-cdn.arduino.cc/uni/catalog/product/cache/1/image/1000x750/f8876a31b63532bbba4e781c30024a0a/A/0/A000079_front_2.jpg)
+<img src="https://store-cdn.arduino.cc/uni/catalog/product/cache/1/image/1000x750/f8876a31b63532bbba4e781c30024a0a/A/0/A000079_front_2.jpg" width="300">
+
 
 ## Claw solenoid
 
@@ -27,7 +30,7 @@ The claw stays closed after supplying 12 V for some milliseconds, therefore I de
 to use a dropping resistor so that push solenoid
 inside the claw is enabled with less than 12 V.
 
-![Circuit](./screenshots/claw-circuit.svg)
+<img src="https://raw.githubusercontent.com/fepegar/arduino-claw-crane/master/screenshots/claw-circuit.svg" width="300">
 
 where
 
@@ -78,7 +81,7 @@ $$ -->
 
 <div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=V_1%20%3D%20V_%7Bcc%7D%20(1%20-%20%5Cfrac%7BR_2%7D%7BR_1%20%2B%20R_2%7D)"></div>
 
-![Screenshot](./screenshots/r2.png)
+<img src="https://raw.githubusercontent.com/fepegar/arduino-claw-crane/master/screenshots/r2.png" width="300">
 [Link](https://www.desmos.com/calculator/cf1kxeozzn)
 
 The horizontal axis is R2 (in ohms). The vertical axis is V1 (in volts).
@@ -86,7 +89,8 @@ The horizontal axis is R2 (in ohms). The vertical axis is V1 (in volts).
 To control the claw, I used a relay module. More specifically, I used a
 [SunFounder 2-Channel DC 5V Relay Module with Optocoupler Low Level Trigger Expansion Board](https://www.sunfounder.com/products/2channel-relay-module).
 
-![Relay module](https://cdn.shopify.com/s/files/1/0474/7729/3217/products/TS0010-01.jpg?v=1599722937)
+<img src="https://cdn.shopify.com/s/files/1/0474/7729/3217/products/TS0010-01.jpg?v=1599722937" width="300">
+
 
 I decided to leave the jumper between Vcc and JD-Vcc in place (i.e., the current
 for the relay solenoid is supplied through the Arduino pin). Ideally, though,
@@ -98,7 +102,7 @@ this voltage would come from an external power supply (good explanation
 For testing, I used the joystick that comes with the Elegoo starter kit.
 It seems to be a [KY-023](https://www.cricklewoodelectronics.com/Dual-axis-joystick-module-for-Arduino-KY-023.html?gclid=Cj0KCQjwh_eFBhDZARIsALHjIKda6-hFnS6d_X1JHB1WaObJxghC3TNj5pJ42rqzo3oEvcHOkOQUueAaAp14EALw_wcB).
 
-![Joystick](https://www.cricklewoodelectronics.com/images/D/KY023.jpg)
+<img src="https://www.cricklewoodelectronics.com/images/D/KY023.jpg" width="300">
 
 More info:
 
