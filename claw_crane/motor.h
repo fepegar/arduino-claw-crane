@@ -19,7 +19,7 @@
 #define MIN_STOP_INTERVAL 2000  // 2 s
 #define MAX_STOP_INTERVAL 10000  // 10 s
 
-#define MIN_MOVE_INTERVAL 200  // 0.2 s
+#define MIN_MOVE_INTERVAL 500  // 0.2 s
 #define MAX_MOVE_INTERVAL 2000 // 2 s
 
 

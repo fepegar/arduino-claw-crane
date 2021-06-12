@@ -5,24 +5,19 @@
   - VRy to A4
   - SW to 10
 
-  Infrared receiver:
-  - Y to 2
-
   Crane:
   - Motor x: orange-white, green
-  - Pin 4 to pull-up resistor 10k to red (xLimit0)
-  - Pin 5 to pull-up resistor 10k to white (xLimit1)
-
+    - Pin 4 to pull-up resistor 10k to red (xLimit0)
+    - Pin 5 to pull-up resistor 10k to white (xLimit1)
   - Motor y: orange-black, pink
-  - Pin 6 to pull-up resistor 10k to purple (yLimitDown)
-  - Pin 7 to pull-up resistor 10k to orange (yLimitUp)
+    - Pin 6 to pull-up resistor 10k to purple (yLimitDown)
+    - Pin 7 to pull-up resistor 10k to orange (yLimitUp)
 
 */
 
 #include "motor.h"
 #include "joystick.h"
 #include "claw.h"
-#include <IRremote.h>
 
 #define MANUAL 0
 #define AUTO 1
@@ -75,7 +70,6 @@ void setup() {
 }
 
 void loop() {
-  int timeClaw = 5000;
   if (mode == AUTO) {
     motorX.moveAuto();
     motorY.moveAuto();
@@ -95,15 +89,7 @@ void readJoystick() {
 
 
 void update() {
-  Serial.println(speedX);
   motorX.setSpeed(speedX);
   motorY.setSpeed(speedY);
   claw.setEnabled(buttonPressed);
-}
-
-
-void stopAll() {
-  motorX.stop();
-  motorY.stop();
-  claw.release();
 }
