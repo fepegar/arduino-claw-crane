@@ -5,7 +5,9 @@ Collaboration with artist [Estefanía B. Flores](https://www.instagram.com/estef
 
 Old claw crane controlled with an [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) microcontroller board.
 
-![Schematic](breadboard.png)
+![Breadboard](breadboard.png)
+
+![Schematic](breadboard_schem.png)
 
 ## Motors
 
