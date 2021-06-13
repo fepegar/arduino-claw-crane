@@ -36,10 +36,13 @@ The claw is closed using a push solenoid.
 To control the claw, I used a relay module. More specifically, I used a
 [SunFounder 2-Channel DC 5V Relay Module with Optocoupler Low Level Trigger Expansion Board](https://www.sunfounder.com/products/2channel-relay-module). We close the claw for 50 ms only.
 
-A flyback diode is placed in parallel to the claw to protect the circuit.
-
 An ohmeter says the resistance across the solenoid is 4.5 ohms, so the current
 through it will be 2.67 amps, as we are using 12 V.
+
+A flyback diode (1N4007) is placed in parallel to the claw to protect the
+circuit.
+According to [components101.com](https://components101.com/diodes/1n4007-diode),
+the non-repetitive Peak current is 30 amps, so it should be fine.
 
 <p align="center">
   <img src="https://cdn.shopify.com/s/files/1/0474/7729/3217/products/TS0010-01.jpg?v=1599722937" width="300">
