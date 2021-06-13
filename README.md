@@ -5,8 +5,7 @@ Collaboration with artist [Estefanía B. Flores](https://www.instagram.com/estef
 
 Old claw crane controlled with an [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) microcontroller board.
 
-<img src="https://raw.githubusercontent.com/fepegar/arduino-claw-crane/master/breadboard.png" width="300">
-
+![Schematic](breadboard.png)
 
 ## Motors
 
@@ -26,71 +25,11 @@ to control them.
 ## Claw solenoid
 
 V1 is the voltage supplied to the claw, whose resistance R1 is about 4.5 Ω.
-The claw stays closed after supplying 12 V for some milliseconds, therefore I decided
-to use a dropping resistor so that push solenoid
-inside the claw is enabled with less than 12 V.
-
-<img src="https://raw.githubusercontent.com/fepegar/arduino-claw-crane/master/screenshots/claw-circuit.svg" width="300">
-
-where
-
-<!-- $$
-V_{cc} = 12 \textrm{V}
-$$ -->
-
-<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=V_%7Bcc%7D%20%3D%2012%20%5Ctextrm%7BV%7D"></div>
-
-and
-
-<!-- $$
-R_1 = 4.5 \Omega
-$$ -->
-
-<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=R_1%20%3D%204.5%20%5COmega"></div>
-
-
-Below is a derivation of V1 as a function of R2.
-
-<!-- $$
-V_1 = V_{cc} - V_2
-$$ -->
-
-<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=V_1%20%3D%20V_%7Bcc%7D%20-%20V_2"></div>
-
-<!-- $$
-V_2 = I R_2
-$$ -->
-
-<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=V_2%20%3D%20I%20R_2"></div>
-
-<!-- $$
-I = \frac{V_{cc}}{R_1 + R_2}
-$$ -->
-
-<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=I%20%3D%20%5Cfrac%7BV_%7Bcc%7D%7D%7BR_1%20%2B%20R_2%7D"></div>
-
-<!-- $$
-V_2 = V_{cc} \frac{R_2}{R_1 + R_2}
-$$ -->
-
-<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=V_2%20%3D%20V_%7Bcc%7D%20%5Cfrac%7BR_2%7D%7BR_1%20%2B%20R_2%7D"></div>
-
-<!-- $$
-V_1 = V_{cc} (1 - \frac{R_2}{R_1 + R_2})
-$$ -->
-
-<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math=V_1%20%3D%20V_%7Bcc%7D%20(1%20-%20%5Cfrac%7BR_2%7D%7BR_1%20%2B%20R_2%7D)"></div>
-
-<img src="https://raw.githubusercontent.com/fepegar/arduino-claw-crane/master/screenshots/r2.png" width="300">
-[Link](https://www.desmos.com/calculator/cf1kxeozzn)
-
-The horizontal axis is R2 (in ohms). The vertical axis is V1 (in volts).
 
 To control the claw, I used a relay module. More specifically, I used a
-[SunFounder 2-Channel DC 5V Relay Module with Optocoupler Low Level Trigger Expansion Board](https://www.sunfounder.com/products/2channel-relay-module).
+[SunFounder 2-Channel DC 5V Relay Module with Optocoupler Low Level Trigger Expansion Board](https://www.sunfounder.com/products/2channel-relay-module). The claw is always closed for only 50 ms.
 
 <img src="https://cdn.shopify.com/s/files/1/0474/7729/3217/products/TS0010-01.jpg?v=1599722937" width="300">
-
 
 I decided to leave the jumper between Vcc and JD-Vcc in place (i.e., the current
 for the relay solenoid is supplied through the Arduino pin). Ideally, though,
