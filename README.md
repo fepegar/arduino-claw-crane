@@ -8,9 +8,14 @@ for her master's thesis at
 Old arcade claw crane controlled with an
 [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) microcontroller board.
 
-![Crane moving](videos/crane.gif)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fepegar/arduino-claw-crane/master/videos/crane.gif" width="300">
+</p>
+
 [Video on YouTube](https://youtu.be/3AYCTyHq7pU)
+
 [Photos](./photos)
+
 [Videos](./videos)
 
 ## Diagrams
@@ -27,7 +32,9 @@ Old arcade claw crane controlled with an
 
 There are three DC motors, but we will only use two.
 
-![Photo of the motors](./photos/WhatsApp_Image_2021-05-25_at_09.21.39.jpeg)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fepegar/arduino-claw-crane/master/photos/WhatsApp_Image_2021-05-25_at_09.21.39.jpeg" width="300">
+</p>
 
 They seem to be [12V Crouzet DC brush geared motors (828610)](https://soda.crouzet.com/pn/?i=82861009).
 
@@ -45,9 +52,14 @@ to control them.
 Each motor has two associated limit switches. They are connected to the Arduino
 using internal pull-up resistors.
 
-![Enabling limit switch](videos/limit.gif)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fepegar/arduino-claw-crane/master/videos/limit.gif" width="300">
+</p>
 
-![Limit switch sketch](screenshots/limit.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fepegar/arduino-claw-crane/master/screenshots/limit.png" width="300">
+</p>
+
 (From [this manual](http://ohwow-arcade.com/Assets/Game_Manuals/BIG%20CHOICE.PDF))
 
 ## Claw solenoid
@@ -68,7 +80,7 @@ We close the claw for 50 ms.
 A flyback diode (1N4007) is placed in parallel to the claw to protect the
 circuit.
 According to [components101.com](https://components101.com/diodes/1n4007-diode),
-the non-repetitive Peak current is 30 amps, so it should be fine.
+the non-repetitive peak current is 30 amps, so it should be fine.
 
 I decided to leave the jumper between Vcc and JD-Vcc in place (i.e., the current
 for the relay solenoid is supplied through the Arduino pin). Ideally, though,
