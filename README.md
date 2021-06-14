@@ -8,6 +8,11 @@ for her master's thesis at
 Old arcade claw crane controlled with an
 [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) microcontroller board.
 
+![Crane moving](videos/crane.gif)
+[Video on YouTube](https://youtu.be/3AYCTyHq7pU)
+[Photos](./photos)
+[Videos](./videos)
+
 ## Diagrams
 
 ### Breadboard
@@ -22,6 +27,8 @@ Old arcade claw crane controlled with an
 
 There are three DC motors, but we will only use two.
 
+![Photo of the motors](./photos/WhatsApp_Image_2021-05-25_at_09.21.39.jpeg)
+
 They seem to be [12V Crouzet DC brush geared motors (828610)](https://soda.crouzet.com/pn/?i=82861009).
 
 <p align="center">
@@ -34,6 +41,14 @@ to control them.
 <p align="center">
   <img src="https://store-cdn.arduino.cc/uni/catalog/product/cache/1/image/1000x750/f8876a31b63532bbba4e781c30024a0a/A/0/A000079_front_2.jpg" width="300">
 </p>
+
+Each motor has two associated limit switches. They are connected to the Arduino
+using internal pull-up resistors.
+
+![Enabling limit switch](videos/limit.gif)
+
+![Limit switch sketch](screenshots/limit.png)
+(From [this manual](http://ohwow-arcade.com/Assets/Game_Manuals/BIG%20CHOICE.PDF))
 
 ## Claw solenoid
 
