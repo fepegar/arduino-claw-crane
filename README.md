@@ -8,7 +8,13 @@ for her master's thesis at
 Old arcade claw crane controlled with an
 [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) microcontroller board.
 
+## Diagrams
+
+### Breadboard
+
 ![Breadboard](screenshots/breadboard.png)
+
+### Schematic
 
 ![Schematic](screenshots/breadboard_schem.png)
 
