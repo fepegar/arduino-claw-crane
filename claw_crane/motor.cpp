@@ -19,8 +19,8 @@ Motor::Motor(char motorID, int directionPin, int pwmPin, int brakePin, int curre
   pinMode(currentPin, INPUT);
   _currentPin = currentPin;
 
-  _ptrLimitSwitch0 = new LimitSwitch(limitPin0);
-  _ptrLimitSwitch1 = new LimitSwitch(limitPin1);
+  _ptrLimitSwitch0 = new LimitSwitch('0', limitPin0);
+  _ptrLimitSwitch1 = new LimitSwitch('1', limitPin1);
   _ptrLimitSwitch0->begin();
   _ptrLimitSwitch1->begin();
 
@@ -30,6 +30,8 @@ Motor::Motor(char motorID, int directionPin, int pwmPin, int brakePin, int curre
   Serial.println(_timeToMove);
 
   _speed = 0;
+  _direction = 1;  // for motor Y (we don't really know if this is up or down)
+  _timeLastLimit = -30000;
 }
 
 void Motor::stop() {
@@ -37,8 +39,9 @@ void Motor::stop() {
   _setSpeed(0);
 }
 
-void Motor::moveAuto() {
-  if (_speed != 0) {
+void Motor::moveAutoX() {
+  boolean isMoving = _speed != 0;
+  if (isMoving) {
     boolean mustStop = millis() >= _timeToStop;
     boolean limitReached = _getLimitSwitchFromSpeed(_speed)->isPushed();
     if (mustStop || limitReached) {
@@ -62,6 +65,49 @@ void Motor::moveAuto() {
   }
 }
 
+void Motor::moveAutoY() {
+  // When the claw goes all the way down, the thread starts winding in the opposite direction.
+  // Therefore, the meaning of the velocities is swapped. We will just always go the same way
+  // and change direction once the switch is activated. We will assume that only the limit
+  // switch at the top will ever be enabled.
+  boolean isMoving = _speed != 0;
+  if (isMoving) {
+    boolean mustStop = millis() >= _timeToStop;
+    boolean limitReached = _ptrLimitSwitch1->isPushed();
+    if (mustStop || limitReached) {
+      Serial.println("Time to stop!");
+      Serial.println("Time reached: " + String(mustStop));
+      Serial.println("Limit reached: " + String(limitReached));
+      if (limitReached) {
+        unsigned long timeSinceLast = millis() - _timeLastLimit;
+        if (timeSinceLast > 30000) {  // So it doesn't get stuck at the top
+          Serial.println("Top limit switch reached. Changing direction...");
+          _direction *= -1;
+          Serial.println("_direction is " + String(_direction));
+          _timeLastLimit = millis();
+        }
+      }
+      Serial.println("Current speed: " + String(_speed));
+      stop();
+      unsigned long waitingTime = _getRandomStopInterval();
+      _timeToMove = millis() + waitingTime;
+      Serial.println("Stopping " + String(_motorID) + " for " + String(waitingTime));
+      Serial.println();
+    }
+  } else if ((!isMoving) && (millis() >= _timeToMove)) {
+    Serial.println("Time to move!");
+    float speed = _getRandomSpeed();
+    speed = abs(speed);  // docs for abs() say it should be done like this
+    speed *= _direction;
+    Serial.println("Setting new speed: " + String(speed));
+    _setSpeed(speed);
+    unsigned long movingTime = _getRandomMoveInterval();
+    _timeToStop = millis() + movingTime;
+    Serial.println("Moving " + String(_motorID) + " at speed " + String(speed) + " for " + String(movingTime));
+    Serial.println();
+  }
+}
+
 float Motor::getMilliAmps() {
   float voltage = _getVoltageFromPin();
   return _getCurrentFromVoltage(voltage);
@@ -74,7 +120,7 @@ void Motor::setSpeed(float speed) {
   }
   LimitSwitch* limitSwitch = _getLimitSwitchFromSpeed(speed);
   if (limitSwitch->isPushed()) {
-    Serial.println("Cannot set speed " + String(speed) + " as limit switch is pushed");
+    Serial.println("Cannot set speed " + String(speed) + " as limit switch " + String(limitSwitch->switchID) + " is pushed");
     _setSpeed(0);
   } else {
     Serial.println("Setting speed: " + String(speed));

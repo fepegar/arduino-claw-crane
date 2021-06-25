@@ -13,7 +13,7 @@
 #define MAX_10_BITS 1023
 #define MAX_INPUT_VOLTAGE 5
 
-#define MIN_RANDOM_SPEED 0.5
+#define MIN_RANDOM_SPEED 0.75
 #define MAX_RANDOM_SPEED 1
 
 #define MIN_STOP_INTERVAL 2000  // 2 s
@@ -30,7 +30,8 @@ class Motor {
     void stop();
     float getMilliAmps();
     boolean limitSwitchIsPushed(int direction);
-    void moveAuto();
+    void moveAutoX();
+    void moveAutoY();
     boolean _limitReached();
 
   private:
@@ -60,6 +61,8 @@ class Motor {
     boolean _moving;
     LimitSwitch* _ptrLimitSwitch0;
     LimitSwitch* _ptrLimitSwitch1;
+    int _direction;
+    long _timeLastLimit;
 };
 
 

@@ -17,7 +17,7 @@ void Claw::close() {
 }
 
 void Claw::release() {
-  Serial.println("Releasing claw");
+  Serial.println("Releasing claw\n");
   setEnabled(false);
   _isOpen = true;
 }

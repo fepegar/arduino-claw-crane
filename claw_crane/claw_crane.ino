@@ -3,7 +3,7 @@
   Joystick:
   - VRx to A3
   - VRy to A4
-  - SW to 10
+  - SW to A5
 
   Crane:
   - Motor x: orange-white, green
@@ -17,6 +17,10 @@
     - Claw solenoid to relay output
     - Arduino 5V used to power relay (risky?)
 
+  - Speed X:
+   - Positive speed is away from the motors
+   - Negative speed is towards the motors
+
 */
 
 #include "motor.h"
@@ -25,8 +29,6 @@
 
 #define MANUAL 0
 #define AUTO 1
-
-const int mode = MANUAL;
 
 const int xLimitPin0 = 4;
 const int xLimitPin1 = 5;
@@ -68,6 +70,7 @@ float speedX;
 float speedY;
 boolean buttonPressed = false;
 
+const int mode = AUTO;
 
 void setup() {
   Serial.begin(9600);
@@ -75,8 +78,8 @@ void setup() {
 
 void loop() {
   if (mode == AUTO) {
-    motorX.moveAuto();
-    motorY.moveAuto();
+    motorX.moveAutoX();
+    motorY.moveAutoY();
     claw.moveAuto();
   } else if (mode == MANUAL) {
     readJoystick();

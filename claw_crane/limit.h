@@ -6,7 +6,8 @@
 
 class LimitSwitch {
   public:
-    LimitSwitch(int pin);
+    LimitSwitch(char switchID, int pin);
+    char switchID;
     boolean isPushed();
     boolean _isPushed();
     void begin();

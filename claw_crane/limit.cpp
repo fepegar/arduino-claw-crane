@@ -3,7 +3,8 @@
 #include "debounce.h"
 
 
-LimitSwitch::LimitSwitch(int pin) {
+LimitSwitch::LimitSwitch(char switchID, int pin) {
+  this->switchID = switchID;
   pinMode(pin, INPUT_PULLUP);
   _pin = pin;
 }
